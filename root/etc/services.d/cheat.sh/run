@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bash
+
+cd /app/cheat.sh || exit
+
+export HOME=/home/abc
+export PYTHONIOENCODING=UTF-8
+exec \
+	s6-setuidgid abc python3 -u /app/cheat.sh/bin/srv.py

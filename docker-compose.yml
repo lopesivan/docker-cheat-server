@@ -1,0 +1,39 @@
+version: "3"
+services:
+
+  cheat-server:
+    image: ${IMAGE}:${META_TAG}
+    container_name: ${CONTAINER_NAME}
+    # user: root
+    #user: "${UID}:${GID}"
+    # hostname: ${HOSTNAME}
+    # working_dir: /home/${USER}
+    #command: entrypoint.sh /bin/bash -l
+
+    depends_on:
+      - redis
+
+    environment:
+      - CHEATSH_CACHE_REDIS_HOST=redis
+
+    ports:
+      - "8002:8002"
+
+    volumes:
+      - ${PWD}/upstream:/app/cheat.sh/upstream
+      - ${PWD}/root/etc/services.d:/etc/services.d
+      - ${PWD}/root/etc/cont-init.d:/etc/cont-init.d
+
+    environment:
+      - PUID=${UID}
+      - PGID=${GID}
+
+
+  redis:
+    image: redis:4-alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
+
