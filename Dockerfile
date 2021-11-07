@@ -20,7 +20,7 @@ RUN \
 
 RUN \
     echo "**** building missing python packages ****" && \
-    apk add --no-cache --virtual build-deps py3-pip gcc g++ python3-dev libffi-dev \
+    apk add --no-cache --virtual build-deps py3-pip g++ python3-dev libffi-dev \
     && pip3 install --no-cache-dir --upgrade pygments \
     && cd /app/cheat.sh \
     && pip3 install --no-cache-dir -r requirements.txt \
