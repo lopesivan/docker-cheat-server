@@ -76,6 +76,7 @@ config:
 	@echo IMAGE=$(IMAGE)                   >> ${env-file}
 	@echo CONTAINER_NAME=$(CONTAINER_NAME) >> ${env-file}
 	@echo HOSTNAME=${NAME}                 >> ${env-file}
+	@echo MACHINENAME=${MACHINENAME}       >> ${env-file}
 	@echo SERVICE=${SERVICE}               >> ${env-file}
 	@echo UID=${UID}                       >> ${env-file}
 	@echo GID=${GID}                       >> ${env-file}
@@ -87,12 +88,21 @@ up: config
 	$(DOCKER_COMPOSE) up -d ${SERVICE}
 
 run: config
-	docker run --rm \
-        --name=${NAME} \
+	# create user ${USER}
+	$(DOCKER_COMPOSE) run --rm \
+        --name ${NAME} \
         -e PUID=${UID} \
         -e PGID=${GID} \
         ${VOLUMES} \
-        ${MACHINENAME}:${META_TAG}
+        ${SERVICE}
+
+# run: config
+# 	docker run --rm \
+#         --name=${NAME} \
+#         -e PUID=${UID} \
+#         -e PGID=${GID} \
+#         ${VOLUMES} \
+#         ${IMAGE}:${META_TAG}
 
 exec:
 	$(DOCKER) exec -it $(CONTAINER_NAME) /bin/bash
