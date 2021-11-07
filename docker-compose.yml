@@ -4,11 +4,6 @@ services:
   cheat-server:
     image: ${IMAGE}:${META_TAG}
     container_name: ${CONTAINER_NAME}
-    # user: root
-    #user: "${UID}:${GID}"
-    # hostname: ${HOSTNAME}
-    # working_dir: /home/${USER}
-    #command: entrypoint.sh /bin/bash -l
 
     depends_on:
       - redis
@@ -21,8 +16,8 @@ services:
 
     volumes:
       - ${PWD}/upstream:/app/cheat.sh/upstream
-      - ${PWD}/root/etc/services.d:/etc/services.d
-      - ${PWD}/root/etc/cont-init.d:/etc/cont-init.d
+#      - ${PWD}/root/etc/services.d:/etc/services.d
+#      - ${PWD}/root/etc/cont-init.d:/etc/cont-init.d
 
     environment:
       - PUID=${UID}
