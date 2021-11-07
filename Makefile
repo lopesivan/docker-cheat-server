@@ -84,10 +84,10 @@ config:
 	@PGID=1000                             >> ${env-file}
 	$(DOCKER_COMPOSE) config
 
-up: config
+up:
 	$(DOCKER_COMPOSE) up -d ${SERVICE}
 
-run: config
+run:
 	# create user ${USER}
 	$(DOCKER_COMPOSE) run --rm \
         --name ${NAME} \
@@ -96,7 +96,7 @@ run: config
         ${VOLUMES} \
         ${SERVICE}
 
-# run: config
+# run:
 # 	docker run --rm \
 #         --name=${NAME} \
 #         -e PUID=${UID} \
