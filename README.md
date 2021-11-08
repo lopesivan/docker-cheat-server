@@ -6,6 +6,12 @@ eval "$(pyenv vars)"
 make build up log
 ```
 
+em uma máquina externa sem *pyenv*:
+```bash
+export GITHUB_USER=lopesivan
+make config build up log
+```
+
 # Questão: substitui localhost por redis
 
 O aplicativo não se conectava com o banco de dados, pois este
