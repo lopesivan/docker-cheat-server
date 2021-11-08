@@ -1,1 +1,2 @@
 eval "$(pyenv vars)"
+make build up log
