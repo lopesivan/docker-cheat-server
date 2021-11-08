@@ -30,4 +30,4 @@ mkdir -p /home/abc
 chown abc:abc /app
 chown abc:abc /config
 chown abc:abc /defaults
-chown abc:abc /home/abc
+# chown abc:abc /home/abc
