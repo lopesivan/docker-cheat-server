@@ -10,34 +10,34 @@ include .version
 #    construção(build) estão disponíveis como extensão ao formato
 #    MAJOR.MINOR.PATCH.
 
-NAME              = cheat-server
-USER              = $(shell id -u -n)
-GROUP             = $(shell id -g -n)
-UID               = $(shell id -u)
-GID               = $(shell id -g)
-env-file          = env.production
+NAME                 = cheat-server
+CONTAINER_REDIS_NAME = cheat_redis_db
+USER                 = $(shell id -u -n)
+GROUP                = $(shell id -g -n)
+UID                  = $(shell id -u)
+GID                  = $(shell id -g)
+env-file             = env.production
 
-VERSION           = $(MAJOR).$(MINOR).$(PATCH)
-SERVICE           = ${NAME}
-OWNER             = ${GITHUB_USER}
-MACHINENAME       = $(OWNER)/$(NAME)
+VERSION              = $(MAJOR).$(MINOR).$(PATCH)
+SERVICE              = ${NAME}
+OWNER                = ${GITHUB_USER}
+MACHINENAME          = $(OWNER)/$(NAME)
 
-DOCKER_COMPOSE    = docker-compose --env-file ${env-file}
-DOCKER            = docker
-CONTAINER_NAME    = $(NAME)
-EMAIL             = $(shell git config user.email)
+DOCKER_COMPOSE       = docker-compose --env-file ${env-file}
+DOCKER               = docker
+CONTAINER_NAME       = $(NAME)
+EMAIL                = $(shell git config user.email)
 
-LATEST            = $(VERSION)
-GITHUB_DATE       = $(shell date "+%Y%m%d")
-SITE              = $(shell git config user.site)
-COMMIT_SHA        = $(shell git rev-parse --verify HEAD)
-EXT_RELEASE_CLEAN = $(MINOR)
-LS_TAG_NUMBER     = $(PATCH)
+LATEST               = $(VERSION)
+GITHUB_DATE          = $(shell date "+%Y%m%d")
+SITE                 = $(shell git config user.site)
+COMMIT_SHA           = $(shell git rev-parse --verify HEAD)
+EXT_RELEASE_CLEAN    = $(MINOR)
+LS_TAG_NUMBER        = $(PATCH)
 
-IMAGE             = ${MACHINENAME}
-META_TAG          = amd64-${VERSION}
-VERSION_TAG       = ${LATEST}
-
+IMAGE                = ${MACHINENAME}
+META_TAG             = amd64-${VERSION}
+VERSION_TAG          = ${LATEST}
 ##############################################################################
 
 VOLUMES = -v `pwd`/upstream:/app/cheat.sh/upstream
@@ -156,9 +156,11 @@ fix:
 	$(DOCKER) images -q --filter "dangling=true"| xargs $(DOCKER) rmi -f
 
 stop:
+	$(DOCKER) stop $(CONTAINER_REDIS_NAME)
 	$(DOCKER) stop $(CONTAINER_NAME)
 
 rm:
+	$(DOCKER) rm $(CONTAINER_REDIS_NAME)
 	$(DOCKER) rm $(CONTAINER_NAME)
 
 build:
@@ -175,3 +177,5 @@ restart:
 
 reset: rm-dirs create-dirs
 clean: stop rm
+
+# end of file
