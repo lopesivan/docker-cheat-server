@@ -15,7 +15,7 @@ services:
       - "8002:8002"
 
     volumes:
-      - ${PWD}/upstream:/app/cheat.sh/upstream
+      - ${PWD}/upstream:/home/abc/.cheat.sh/upstream
 #      - ${PWD}/root/etc/services.d:/etc/services.d
 #      - ${PWD}/root/etc/cont-init.d:/etc/cont-init.d
 

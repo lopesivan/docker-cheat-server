@@ -3,4 +3,5 @@
 # permissions
 chown -R abc:abc \
     /config \
-    /app/cheat.sh
+    /app/cheat.sh \
+    /home/abc	

@@ -26,8 +26,8 @@ User uid:    $(id -u abc)
 User gid:    $(id -g abc)
 -------------------------------------
 "
-mkdir -p /home/abc
+mkdir -p /home/abc/.cheat.sh
 chown abc:abc /app
 chown abc:abc /config
 chown abc:abc /defaults
-# chown abc:abc /home/abc
+chown abc:abc -R /home/abc

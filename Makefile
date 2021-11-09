@@ -84,7 +84,10 @@ config:
 	@PGID=1000                             >> ${env-file}
 	$(DOCKER_COMPOSE) config
 
-up:
+update:
+	( cd upstream; git fetch; git pull )
+
+up:update
 	$(DOCKER_COMPOSE) up -d ${SERVICE}
 
 run:
