@@ -30,3 +30,13 @@ cd root/app/cheat.sh
 vi lib/config.py  bin/clean_cache.py
     localhost -> redis
 ```
+
+
+# Usando
+```
+ git clone https://github.com/lopesivan/docker-cheat-server cheat
+ cd cheat/
+ git clone https://github.com/lopesivan/upstream
+ make up
+```
+
