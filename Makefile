@@ -63,7 +63,12 @@ BUILD_LABEL       = \
 #BUILD_OPTS = $(BUILD_LABEL) --no-cache --pull -t ${IMAGE}:${META_TAG} --build-arg VERSION="${VERSION_TAG}" --build-arg BUILD_DATE=${GITHUB_DATE}
 BUILD_OPTS = $(BUILD_LABEL) -t ${IMAGE}:${META_TAG} --build-arg VERSION="${VERSION_TAG}" --build-arg BUILD_DATE=${GITHUB_DATE}
 
-all: status
+all: help
+
+.PHONY: help
+help:
+	@printf "%s\n" "Useful targets:"
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' Makefile | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  make %-15s\033[0m %s\n", $$1, $$2}'
 
 init:
 	sudo chown ${USER}:${USER} -R root upstream
@@ -84,10 +89,12 @@ config:
 	@PGID=1000                             >> ${env-file}
 	$(DOCKER_COMPOSE) config
 
-update:
+.PHONY: update
+update: ## Update https://github.com/lopesivan/upstream
 	( cd upstream; git fetch; git pull )
 
-up:update
+.PHONY: up
+up: update ## Turn on the container as a background server
 	$(DOCKER_COMPOSE) up -d ${SERVICE}
 
 run:
@@ -99,21 +106,15 @@ run:
         ${VOLUMES} \
         ${SERVICE}
 
-# run:
-# 	docker run --rm \
-#         --name=${NAME} \
-#         -e PUID=${UID} \
-#         -e PGID=${GID} \
-#         ${VOLUMES} \
-#         ${IMAGE}:${META_TAG}
-
 exec:
 	$(DOCKER) exec -it $(CONTAINER_NAME) /bin/bash
 
-ps:
+.PHONY: ps
+ps: ## Shows processes that are running or suspended
 	$(DOCKER) ps -a
 
-status:
+.PHONY: status
+status: ## Show Name, cpu and memory usage per machine
 	$(DOCKER) stats --all --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 
 pause:
@@ -179,6 +180,8 @@ restart:
 	$(DOCKER) restart  $(CONTAINER_NAME)
 
 reset: rm-dirs create-dirs
-clean: stop rm
+
+.PHONY: clean
+clean: stop rm ## remove shut down the container and remove
 
 # end of file
